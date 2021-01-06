@@ -40,7 +40,7 @@ jobs:
           checkstring: "1"
 
   tagging_action:
-    if: ${{ !contains( toJson(github.event.commits.*.message), '#skip') }}
+    if: ${{ !contains( toJson(github.event.commits[0].message), '#skip') }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
