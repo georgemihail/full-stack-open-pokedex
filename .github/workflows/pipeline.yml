@@ -38,6 +38,10 @@ jobs:
           heroku_email: "formyowndocuments@gmail.com"
           healthcheck: "https://cicd-fullstack-george.herokuapp.com/version"
           checkstring: "1"
+
+  tagging_action:
+    runs-on: ubuntu-18.04
+    steps:
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.33.0
