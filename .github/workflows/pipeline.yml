@@ -64,12 +64,12 @@ jobs:
         run: echo "Here is :$GITHUB_CONTEXT"
       - name: commits
         env:
-          COMMITS: ${{ toJson(github.event.commits) }}
+          COMMITS: ${{ toJson(github.event.commits.message) }}
         run: echo "Here are commits:$COMMITS"
       - name: commit messages
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo '$COMMIT_MESSAGES'
       - name: test_contain_skip
-        if: ${{ contains(github.event.commits.*.message, '#skip') }}
+        if: ${{ contains(github.event.commits.message, '#skip') }}
         run: echo 'Here ---> contains skip'
