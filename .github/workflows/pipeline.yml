@@ -40,6 +40,7 @@ jobs:
           checkstring: "1"
 
   tagging_action:
+    if: ${{ !contains( toJson(github.event.commits.*.message), '#skip') }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -53,23 +54,3 @@ jobs:
           WITH_V: true
           DRY_RUN: true
           DEFAULT_BUMP: patch
-
-  a_test_job:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: gihub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "Here is :$GITHUB_CONTEXT"
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "Here are commits:$COMMITS"
-      - name: commit messages
-        env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
-      - name: test_contain_skip
-        if: ${{ !contains( toJson(github.event.commits.*.message), '#skip') }}
-        run: echo 'Here ---> not contains skip'
