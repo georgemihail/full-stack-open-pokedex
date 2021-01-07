@@ -38,6 +38,30 @@ jobs:
           heroku_email: "formyowndocuments@gmail.com"
           healthcheck: "https://cicd-fullstack-george.herokuapp.com/version"
           checkstring: "1"
+      - uses: 8398a7/action-slack@v3
+        if: ${{ github.event_name == 'push' }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: failure()
+      - uses: 8398a7/action-slack@v3
+        if: ${{ github.event_name == 'push' }}
+        with:
+          status: custom
+          fields: commit,author,took
+          custom_payload: |
+            {
+              username: 'github_action',
+              attachments: [{
+                color: 'good',
+                text: `a new version was deployed to https://cicd-fullstack-george.herokuapp.com (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} build took ${process.env.AS_TOOK}`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: success() 
 
   tagging_action:
     runs-on: ubuntu-18.04
