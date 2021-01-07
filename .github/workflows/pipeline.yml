@@ -39,15 +39,13 @@ jobs:
           healthcheck: "https://cicd-fullstack-george.herokuapp.com/version"
           checkstring: "1"
       - uses: 8398a7/action-slack@v3
-        if: ${{ github.event_name == 'push' }}
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: failure()
+        if: ${{ (github.event_name == 'push') && failure() }}
       - uses: 8398a7/action-slack@v3
-        if: ${{ github.event_name == 'push' }}
         with:
           status: custom
           fields: commit,author,took
@@ -61,7 +59,7 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: success() 
+        if: ${{ (github.event_name == 'push') && success() }}
 
   tagging_action:
     runs-on: ubuntu-18.04
