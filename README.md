@@ -1,6 +1,6 @@
 ## Project Bloglist - (for Exercises 11.21 and 11.22):
 
-Please check the repository for [bloglist app](../bloglist-app-cicd). This is for last point, (d) of Part.11.
+Please check the repository for [bloglist app](/../../bloglist-app-cicd). This is for last point, (d) of Part.11.
 
 
 Also, you can access the [heroku](https://cicd-fullstack-project.herokuapp.com/) app
